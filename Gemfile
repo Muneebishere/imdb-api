@@ -21,6 +21,8 @@ gem 'active_model_serializers'
 gem 'rails_admin'
 
 gem 'activerecord-session_store'
+
+gem "aws-sdk-s3", require: false
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
