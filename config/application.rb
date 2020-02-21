@@ -38,6 +38,7 @@ module ImdbApi
     config.middleware.use Rack::MethodOverride
 
     config.middleware.use ActionDispatch::Session::ActiveRecordStore, {:key=>"_imdb_api_session"}
+    Rails.application.config.action_controller.forgery_protection_origin_check = false
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
