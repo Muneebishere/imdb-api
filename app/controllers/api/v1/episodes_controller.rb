@@ -4,7 +4,7 @@ class Api::V1::EpisodesController < ApplicationController
 	def show
 		on_watchlist = user_signed_in? ? current_user.watchlist_episodes.where(id: @episode.id).present? : false
 		render json: { 
-			episode: EpisodeSerializer.new(@episode), 
+			episode: EpisodeSerializer.new(@episode, current_user), 
 			on_watchlist: on_watchlist 
 		}
 	end
