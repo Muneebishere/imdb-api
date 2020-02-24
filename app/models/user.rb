@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
   has_many :watchlist_episodes, through: :watchlist_shows, source: :watchlistable, source_type: :Episode, dependent: :destroy
   has_many :reviews, dependent: :destroy
 
+  validates :first_name, :last_name, :email, :nickname, presence: true
+
   def name
     uid
   end
