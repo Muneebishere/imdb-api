@@ -5,6 +5,20 @@ class Celebrity < ApplicationRecord
 	
 	validates :full_name, :biography, :birth_date, presence: true
 
+	def self.search_records(query)
+		search_text = '%%'
+		if query.present?
+			query = query.strip
+			query = query.downcase
+			search_text = '%' + (query.present? ? query.downcase : '') + '%'
+		end
+		Celebrity.where("lower(full_name) LIKE ?", search_text)
+	end
+
+	def occupations
+		self.celebrity_show_roles.pluck(:role_type).uniq
+	end
+
 	def name
     full_name
   end

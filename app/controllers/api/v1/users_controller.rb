@@ -2,6 +2,22 @@ class Api::V1::UsersController < ApplicationController
 	before_action :authenticate_user!
 	before_action :set_show_object, only: [:update_watchlist_shows]
 
+	def show
+		render json: current_user, serializer: UserSerializer
+	end
+
+	def update
+		if current_user.update(user_update_params)
+			render json: current_user, serializer: UserSerializer, status: 200
+		else
+			render json: {errors: current_user.errors.full_messages}, status: 422
+		end
+	end
+
+	def remove_avatar
+		render json: {}, status: 200 if current_user.avatar.purge
+	end
+
 	def watchlist_shows_count
 		render json: {count: current_user.watchlist_films.count + current_user.watchlist_seasons.count + current_user.watchlist_episodes.count}
 	end
@@ -41,5 +57,9 @@ class Api::V1::UsersController < ApplicationController
 			@show_object = Film.find(params[:id]) if params[:type].humanize == "Film"
 			@show_object = Season.find(params[:id]) if params[:type].humanize == "Season"
 			@show_object = Episode.find(params[:id]) if params[:type].humanize == "Episode"
+		end
+
+		def user_update_params
+			params.permit(:email, :first_name, :last_name, :nickname, :avatar)
 		end
 end
